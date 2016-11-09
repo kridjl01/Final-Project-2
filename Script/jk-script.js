@@ -4,57 +4,98 @@
 
 var UserNames = [];
 var UserDifficulty = [];
+var CurrentUserCell;
+
 function $(elementid){
     return document.getElementById(elementid);
 }
+
 function SaveValues(){
-    localStorage.setItem("Difficulty",UserDifficulty);
-    localStorage.setItem("Names",UserNames);
+    //Converts UserNames and UserDifficulty arrays to strings and
+    //saves to local storage
+    localStorage.setItem("UserNames",JSON.stringify(UserNames));
+    localStorage.setItem("UserDifficulty",JSON.stringify(UserDifficulty));
 }
 function GetValues(){
-    UserDifficulty = localStorage.getItem("Difficulty");
-    UserNames = localStorage.getItem("Name");
+    //Takes UserNames and UserDifficulty strings from local storage converts to an array
+    // and saves as UserNames and UserDifficulty array
+    var retrievedNames = localStorage.getItem("UserNames");
+
+    UserNames = [];UserDifficulty=[];
+    if (retrievedNames == null) {
+        // If retrievedNames is null this does nothing and leaves the UserNames and User Difficulty as
+        //empty arrays
+    } else {
+        //If retrievedNames is not null the conversion and assignment is carried out
+        var retrievedDifficulty = localStorage.getItem(("UserDifficulty"));
+        UserNames = JSON.parse(retrievedNames);
+        UserDifficulty = JSON.parse(retrievedDifficulty);
+    }
 }
 function CheckUserName(UserName){
-    //Takes in user name and returns array cell number
-    // either for the username or next available cell
-    var savedUserName="";
-    var length = UserNames.length;
+    //Takes in the UserName and checks UserNames array for user name
+    //Changes global variable CurrentUserCell for current users and returns false
+    //returns true if user name is not in array
     var index =0;
-    while (savedUserName==""||index<=length){
-        if (UserNames[index]==UserName){
-            savedUserName =UserNames[index];
+    if (UserNames !=null) {
+        var length = UserNames.length;
+        while (index <= length) {
+            if (UserNames[index] == UserName) {
+                CurrentUserCell=index;
+                return false;
 
+            }
+            index++;
         }
-        else{index++}
-
     }
-    return index;
-}
+    return true;
 
+
+}
+function FindEmptyCell(Array){alert("find empty cell start")
+    // Finds the next empty cell in the Array
+    var i=0
+    if (Array ==null){
+        //If array has not been filled returns 0 for first cell
+        return 0;
+    }
+
+    while (Array [i] !=null){i++
+        //Finds the next empty cell
+    }
+    return i;
+}
 function NewUserName(){
     //Takes a new user name and add new cell to username array
-    GetValues();
-     var newUserName = $("txtUserName").value
-    var userCellNumber = CheckUserName(newUserName);
-    if (UserNames[userCellNumber]==newUserName){
-        alert ("User name has already been chosen. Please enter a new user name");
+
+    var newUserName = $("txtUserName").value;
+
+    if (CheckUserName(newUserName)==true){
+
+        var emptyCell = FindEmptyCell(UserNames)
+
+
+        UserNames[emptyCell]= newUserName;
+        CurrentUserCell=emptyCell;
+        UserDifficulty[emptyCell]=0;
+        location.assign("Game Selection.html");
+        SaveValues();
+        alert("saved Name as ")
+        alert(UserNames[emptyCell]);
     }
-     else {UserNames[userCellNumber]=newUserName}
+    else{alert ("User name has already been chosen. Please enter a new user name");}
 
 }
 
 function PreviousUser(){
-    // finds the previous users name
-    GetValues();
+    // Finds the previous users name
     var previousUserName = $("txtUserName").value
-   var userCellNumber = CheckUserName(previousUserName);
-    var length = UserNames.length;
-    if( previousUserName==UserNames[userCellNumber]){
-// will pull the difficulty level from saved memory
 
+    if (CheckUserName(previousUserName)==true){
+        alert ("User Name is incorrect Please Enter correct username or select new user.")
     }
-    else {alert ("User Name is incorrect Please inter correct username or select new user.")
+    else {SaveValues();
+        location.assign("Game Selection.html");
     }
 
 }
