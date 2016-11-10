@@ -21,11 +21,13 @@ function GetValues(){
     // and saves as UserNames and UserDifficulty array
     var retrievedNames = localStorage.getItem("UserNames");
 
-    UserNames = [];UserDifficulty=[];
+
     if (retrievedNames == null) {
         // If retrievedNames is null this does nothing and leaves the UserNames and User Difficulty as
-        //empty arrays
-    } else {
+        //empty
+        UserNames = [];UserDifficulty=[];
+    }
+    else {
         //If retrievedNames is not null the conversion and assignment is carried out
         var retrievedDifficulty = localStorage.getItem(("UserDifficulty"));
         UserNames = JSON.parse(retrievedNames);
@@ -52,7 +54,7 @@ function CheckUserName(UserName){
 
 
 }
-function FindEmptyCell(Array){alert("find empty cell start")
+function FindEmptyCell(Array){
     // Finds the next empty cell in the Array
     var i=0
     if (Array ==null){
@@ -80,8 +82,7 @@ function NewUserName(){
         UserDifficulty[emptyCell]=0;
         location.assign("Game Selection.html");
         SaveValues();
-        alert("saved Name as ")
-        alert(UserNames[emptyCell]);
+        
     }
     else{alert ("User name has already been chosen. Please enter a new user name");}
 
