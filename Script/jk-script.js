@@ -5,7 +5,7 @@
 var UserNames = [];
 var UserDifficulty = [];
 var CurrentUserCell;
-
+const MathOperators = ["+","-","x","/"];
 function $(elementid){
     return document.getElementById(elementid);
 }
@@ -82,7 +82,7 @@ function NewUserName(){
         UserDifficulty[emptyCell]=0;
         location.assign("Game Selection.html");
         SaveValues();
-        
+
     }
     else{alert ("User name has already been chosen. Please enter a new user name");}
 
@@ -98,5 +98,8 @@ function PreviousUser(){
     else {SaveValues();
         location.assign("Game Selection.html");
     }
+
+}
+function GameSelection(){
 
 }
