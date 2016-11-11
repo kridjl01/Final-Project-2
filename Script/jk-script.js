@@ -6,6 +6,7 @@ var UserNames = [];
 var UserDifficulty = [];
 var CurrentUserCell;
 const MathOperators = ["+","-","x","/"];
+var UserMathOperators = [];
 function $(elementid){
     return document.getElementById(elementid);
 }
@@ -101,37 +102,53 @@ function PreviousUser(){
 
 }
 function GameSelection(){
-    var numberSelected;
+var numberSelected;
+    UserMathOperators=[];
+    if($("chkAddition").checked == false&&$("chkSubtraction").checked == false&&$("chkMultiplication").checked == false&&$("chkDivision").checked == false){
+        alert("Please select at least one math operation.")
+        return;
+    }
     if ($("radFlashCard").checked==true){
+
         if ($("chkAddition").checked == true) {
-            numberSelected=1
-            
+            UserMathOperators[FindEmptyCell(UserMathOperators)]= UserMathOperators[0];
+
         }
         if ($("chkSubtraction").checked == true) {
-            numberSelected=numberSelected+1;
+            UserMathOperators[FindEmptyCell(UserMathOperators)]= UserMathOperators[1];
         }
         if ($("chkMultiplication").checked == true) {
-            numberSelected=numberSelected+1;
+            UserMathOperators[FindEmptyCell(UserMathOperators)]= UserMathOperators[2];
         }
         if ($("chkDivision").checked == true) {
-            numberSelected=numberSelected+1;
+            UserMathOperators[FindEmptyCell(UserMathOperators)]= UserMathOperators[3];
         }
 
+        location.assign("Flash Card.html");
     }
-else if ($("gameSelection").checked ==true){
+else if ($("radStoryProblem").checked ==true){
         if ($("chkAddition").checked == true) {
             numberSelected=1;
+            UserMathOperators[0]= UserMathOperators[0];
         }
         if ($("chkSubtraction").checked == true) {
             numberSelected=numberSelected+1;
+            UserMathOperators[0]= UserMathOperators[1];
         }
         if ($("chkMultiplication").checked == true) {
             numberSelected=numberSelected+1;
+            UserMathOperators[0]= UserMathOperators[2];
         }
         if ($("chkDivision").checked == true) {
             numberSelected=numberSelected+1;
+            UserMathOperators[0]= UserMathOperators[3];
         }
-
+        if (numberSelected>1){
+            alert("Please select only one math operation.")
+            return;
+        }
+        location.assign("Story Problem Input.html");
     }
-    else {alert ("Please select a game.")}
+    else {alert ("Please select either .")
+    return;}
 }
