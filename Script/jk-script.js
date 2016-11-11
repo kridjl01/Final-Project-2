@@ -101,5 +101,37 @@ function PreviousUser(){
 
 }
 function GameSelection(){
+    var numberSelected;
+    if ($("radFlashCard").checked==true){
+        if ($("chkAddition").checked == true) {
+            numberSelected=1
+            
+        }
+        if ($("chkSubtraction").checked == true) {
+            numberSelected=numberSelected+1;
+        }
+        if ($("chkMultiplication").checked == true) {
+            numberSelected=numberSelected+1;
+        }
+        if ($("chkDivision").checked == true) {
+            numberSelected=numberSelected+1;
+        }
 
+    }
+else if ($("gameSelection").checked ==true){
+        if ($("chkAddition").checked == true) {
+            numberSelected=1;
+        }
+        if ($("chkSubtraction").checked == true) {
+            numberSelected=numberSelected+1;
+        }
+        if ($("chkMultiplication").checked == true) {
+            numberSelected=numberSelected+1;
+        }
+        if ($("chkDivision").checked == true) {
+            numberSelected=numberSelected+1;
+        }
+
+    }
+    else {alert ("Please select a game.")}
 }
