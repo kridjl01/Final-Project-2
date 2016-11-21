@@ -7,11 +7,18 @@
 var UserNames = [];
 var UserDifficulty = 1;
 var CurrentUserCell;
-const MathOperators = ["+","-","x","/"];
-var UserMathOperators = []
+var UserMathOperators = [0,1,2,3]
 var NumbersAvailable =[];
-var NumbersOne = [];
-var NumbersTwo = [];
+var NumbersTopAdd = [];
+var NumbersBottomAdd = [];
+var NumbersTopSub = [];
+var NumbersBottomSub = [];
+var NumbersTopMult = [];
+var NumbersBottomMult = [];
+var NumbersTopDiv = [];
+var NumbersBottomDiv = [];
+
+var Answer;
 function $(elementid){
     return document.getElementById(elementid);
 }
@@ -116,17 +123,17 @@ var numberSelected;
     if ($("radFlashCard").checked==true){
 
         if ($("chkAddition").checked == true) {
-            UserMathOperators[FindEmptyCell(UserMathOperators)]= MathOperators[0];
+            UserMathOperators.push(0);
 
         }
         if ($("chkSubtraction").checked == true) {
-            UserMathOperators[FindEmptyCell(UserMathOperators)]= MathOperators[1];
+            UserMathOperators.push(1);
         }
         if ($("chkMultiplication").checked == true) {
-            UserMathOperators[FindEmptyCell(UserMathOperators)]= MathOperators[2];
+            UserMathOperators.push(2);
         }
         if ($("chkDivision").checked == true) {
-            UserMathOperators[FindEmptyCell(UserMathOperators)]= MathOperators[3];
+            UserMathOperators.push(3);
         }
 
         location.assign("Flash Card.html");
@@ -134,19 +141,19 @@ var numberSelected;
 else if ($("radStoryProblem").checked ==true){
         if ($("chkAddition").checked == true) {
             numberSelected=1;
-            UserMathOperators[0]= UserMathOperators[0];
+            UserMathOperators[0]= 0;
         }
         if ($("chkSubtraction").checked == true) {
             numberSelected=numberSelected+1;
-            UserMathOperators[0]= UserMathOperators[1];
+            UserMathOperators[0]= 1;
         }
         if ($("chkMultiplication").checked == true) {
             numberSelected=numberSelected+1;
-            UserMathOperators[0]= UserMathOperators[2];
+            UserMathOperators[0]= 2;
         }
         if ($("chkDivision").checked == true) {
             numberSelected=numberSelected+1;
-            UserMathOperators[0]= UserMathOperators[3];
+            UserMathOperators[0]= 3;
         }
         if (numberSelected>1){
             alert("Please select only one math operation.")
@@ -157,6 +164,7 @@ else if ($("radStoryProblem").checked ==true){
     else {alert ("Please select either .")
     return;}
 }
+
 function RandomInt (low,high) {
     //given :low<=high
     //returns : a random integer in the range [low,high]
@@ -168,12 +176,14 @@ function RandomOneOf(list){
 
     return list[RandomInt(0, list.length-1)];
 }
+
 function CreateNumberArray(difficulty,Array){
     Array= [];
     for (i=0;i<difficulty*10;i++){
         Array.push(i);
     }
 }
+
 function SelectAndReduce(Array){
     var index =RandomInt(0,Array.length-1);
     var returnValue = Array[index];
@@ -183,26 +193,80 @@ function SelectAndReduce(Array){
     return returnValue;
 }
 
-function DisplayEquationNumbers(){
+function DisplayEquationNumbers(top,bottom,operator){
+    $("divOperator").innerHTML=operator;
+    $("divTop").innerHTML=top;
+    $("divBottom").innerHTML= bottom;
+}
 
+function CreateEquationNumbers(){
+    var top;
+    var bottom;
+    var operators = RandomInt(0,UserMathOperators.length-1);
 
-    if (NumbersOne == ""||NumbersOne[0]==undefined ||NumbersTwo == ""||NumbersTwo[0]==undefined){
-        for (i=0;i<UserDifficulty*10;i++){
-            NumbersOne.push(i);
-            NumbersTwo.push(i)}
+    alert("operators");alert(operators)
+    if (UserMathOperators[operators] == 0){
+     alert("addition")
+        if (NumbersTopAdd == ""||NumbersBottomAdd == ""){
+            for (i=0;i<UserDifficulty*10;i++){
+                NumbersTopAdd.push(i);
+                NumbersBottomAdd.push(i);}
+        }
+       top = SelectAndReduce(NumbersTopAdd);
+        bottom = SelectAndReduce(NumbersBottomAdd);
+        DisplayEquationNumbers(top,bottom,"+");
+        Answer = top+bottom;
     }
 
-
-    var numbersone = SelectAndReduce(NumbersOne)//SelectAndReduce(NumbersOne);
-    var numberstwo = SelectAndReduce(NumbersTwo)//SelectAndReduce(NumbersTwo);
-    var operators = RandomOneOf(MathOperators);//Change to UserMathOperators when finished
-    if (operators =="/"&&numberstwo==0){
-        numberstwo=SelectAndReduce(NumbersTwo);
+    if (UserMathOperators[operators] == 1){
+        alert("subtraction")
+        if (NumbersTopSub == ""||NumbersBottomSub== ""){
+            for (i=0;i<UserDifficulty*10;i++){
+                NumbersTopSub.push(i);
+                NumbersBottomSub.push(i);}
         }
-        $("divOperator").innerHTML=operators;
-        $("divNumb1").innerHTML=numbersone;
+        top = SelectAndReduce(NumbersTopSub);
+        bottom = SelectAndReduce(NumbersBottomSub);
+        if(bottom>top) {
+            while (bottom>top){
+                NumbersBottomSub.push(bottom);
+                var index = 0
+                bottom = NumbersBottomSub[index];
+                NumbersBottomSub.splice(index,1);
+                index++;
 
-        $("divNumb2").innerHTML= numberstwo;
+            }
+        }
+        DisplayEquationNumbers(top,bottom,"-");
+        Answer = top-bottom;
+    }
+    if (UserMathOperators[operators] == 2){
+        alert("multiplication")
+        if (NumbersTopMult == ""||NumbersBottomMult == ""){
+            for (i=0;i<UserDifficulty*10;i++){
+                NumbersTopMult.push(i);
+                NumbersBottomMult.push(i);}
+        }
+        top = SelectAndReduce(NumbersTopMult);
+        bottom = SelectAndReduce(NumbersBottomMult);
+        DisplayEquationNumbers(top,bottom,"X");
+        Answer = top*bottom;
+    }
+    if (UserMathOperators[operators] == 3){
+        alert("division")
+        if (NumbersTopDiv == ""||NumbersBottomDiv == ""){
+            for (i=0;i<UserDifficulty*10;i++){
+                NumbersTopMult.push(i);
+                NumbersBottomMult.push(i);
+                }
+        }
+
+        bottom = SelectAndReduce(NumbersBottomMult);
+        top = bottom*SelectAndReduce(NumbersTopMult);
+        DisplayEquationNumbers(top,bottom,"/");
+        Answer = top/bottom;
+
+    }
 
 
 }

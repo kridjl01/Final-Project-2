@@ -6,13 +6,14 @@
     <link rel="stylesheet" type = "text/css" href="Style/styles.css">
     <script src="Script/jk-script.js"></script>
 </head>
-<body onload = "DisplayEquationNumbers();">
+<body onload = "CreateEquationNumbers();">
 <h1>Flash Cards</h1>
 <table>
-    <tr><td></td><td><div id="divNumb1"></div></td></tr>
+    <tr><td></td><td><div id="divTop"></div></td></tr>
     <tr><td><div id="divOperator"></div></td><td></td></tr>
-    <tr><td></td><td><div id="divNumb2"></div></td></tr>
-    <tr><td></td><td><input type="text" id="txtFlashAnswer"></td></tr>
+    <tr><td></td><td><div id="divBottom"></div></td></tr>
+    <tr><input type = "button" value="Submit Answer" onclick="CheckAnswer()">Submit Answer</td><td><input type="text" id="txtFlashAnswer"></td></tr>
 </table>
+<h1><div id="divFeedBack"</h1>
 </body>
 </html>
