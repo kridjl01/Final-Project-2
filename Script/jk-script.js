@@ -17,7 +17,7 @@ var NumbersTopMult = [];
 var NumbersBottomMult = [];
 var NumbersTopDiv = [];
 var NumbersBottomDiv = [];
-
+var CorrectAnswers = 0;
 var Answer;
 function $(elementid){
     return document.getElementById(elementid);
@@ -200,14 +200,15 @@ function DisplayEquationNumbers(top,bottom,operator){
 }
 
 function CreateEquationNumbers(){
+    $("divFeedBack").innerHTML="";
+    $("txtFlashAnswer").value=""
     var top;
     var bottom;
     var operators = RandomInt(0,UserMathOperators.length-1);
 
-    alert("operators");alert(operators)
+
     if (UserMathOperators[operators] == 0){
-     alert("addition")
-        if (NumbersTopAdd == ""||NumbersBottomAdd == ""){
+            if (NumbersTopAdd == ""||NumbersBottomAdd == ""){
             for (i=0;i<UserDifficulty*10;i++){
                 NumbersTopAdd.push(i);
                 NumbersBottomAdd.push(i);}
@@ -219,7 +220,7 @@ function CreateEquationNumbers(){
     }
 
     if (UserMathOperators[operators] == 1){
-        alert("subtraction")
+
         if (NumbersTopSub == ""||NumbersBottomSub== ""){
             for (i=0;i<UserDifficulty*10;i++){
                 NumbersTopSub.push(i);
@@ -241,8 +242,7 @@ function CreateEquationNumbers(){
         Answer = top-bottom;
     }
     if (UserMathOperators[operators] == 2){
-        alert("multiplication")
-        if (NumbersTopMult == ""||NumbersBottomMult == ""){
+            if (NumbersTopMult == ""||NumbersBottomMult == ""){
             for (i=0;i<UserDifficulty*10;i++){
                 NumbersTopMult.push(i);
                 NumbersBottomMult.push(i);}
@@ -253,8 +253,7 @@ function CreateEquationNumbers(){
         Answer = top*bottom;
     }
     if (UserMathOperators[operators] == 3){
-        alert("division")
-        if (NumbersTopDiv == ""||NumbersBottomDiv == ""){
+            if (NumbersTopDiv == ""||NumbersBottomDiv == ""){
             for (i=0;i<UserDifficulty*10;i++){
                 NumbersTopMult.push(i);
                 NumbersBottomMult.push(i);
@@ -268,5 +267,22 @@ function CreateEquationNumbers(){
 
     }
 
+
+}
+
+function CheckAnswer(){
+    var userAnswer = parseFloat($("txtFlashAnswer").value);
+
+    if (userAnswer ==Answer){
+       CorrectAnswers++;alert(CorrectAnswers)
+        if (CorrectAnswers%5!=0)
+        $("divFeedBack").innerHTML="Correct";
+        if (CorrectAnswers%5==0){
+            location.assign("Achievement.html")
+            feedBack = ["Way To GO","Your On Top","Good Job","Superb","Genius"];
+            $("divAchievement").innerHTML=RandomOneOf(feedBack)+"<br> You have answered "+Answer+" in a row";
+        }
+    }
+    else{$("divFeedBack").innerHTML="Try Again";}
 
 }
