@@ -200,6 +200,12 @@ function DisplayEquationNumbers(top,bottom,operator){
 }
 
 function CreateEquationNumbers(){
+    CorrectAnswers = localStorage.getItem("CorrectAnswers")
+    alert(CorrectAnswers)
+//if (CorrectAnswers==NAN){
+      //  CorrectAnswers=0}
+    alert(CorrectAnswers)
+
     $("divFeedBack").innerHTML="";
     $("txtFlashAnswer").value=""
     var top;
@@ -274,15 +280,25 @@ function CheckAnswer(){
     var userAnswer = parseFloat($("txtFlashAnswer").value);
 
     if (userAnswer ==Answer){
-       CorrectAnswers++;alert(CorrectAnswers)
-        if (CorrectAnswers%5!=0)
+       CorrectAnswers =CorrectAnswers +1;
+        localStorage.setItem("CorrectAnswers",CorrectAnswers)
+        if (CorrectAnswers%2!=0)
         $("divFeedBack").innerHTML="Correct";
-        if (CorrectAnswers%5==0){
+        if (CorrectAnswers%2==0){
+            localStorage.setItem("CorrectAnswers",CorrectAnswers)
             location.assign("Achievement.html")
-            feedBack = ["Way To GO","Your On Top","Good Job","Superb","Genius"];
-            $("divAchievement").innerHTML=RandomOneOf(feedBack)+"<br> You have answered "+Answer+" in a row";
+
         }
     }
     else{$("divFeedBack").innerHTML="Try Again";}
 
+}
+function Achievement(){
+ CorrectAnswers = localStorage.getItem("CorrectAnswers")
+    feedBack = ["Way To GO","Your On Top","Good Job","Superb","Genius"];
+    $("divAchievement").innerHTML=RandomOneOf(feedBack)+"<br> You have answered "+CorrectAnswers+" in a row";
+}
+function GoBackToFlash(){
+    localStorage.setItem("CorrectAnswers",CorrectAnswers)
+    location.assign("Flash Card.html")
 }
