@@ -1,12 +1,17 @@
 /**
  * Created by Owner on 10/29/2016.
+ * CS 112 Final Project
+ * Jeremiah Krider
  */
 
 var UserNames = [];
 var UserDifficulty = [];
 var CurrentUserCell;
 const MathOperators = ["+","-","x","/"];
-var UserMathOperators = [];
+var UserMathOperators = []
+var NumbersAvailable =[];
+var NumbersOne = [];
+var NumbersTwo = [];
 function $(elementid){
     return document.getElementById(elementid);
 }
@@ -111,17 +116,17 @@ var numberSelected;
     if ($("radFlashCard").checked==true){
 
         if ($("chkAddition").checked == true) {
-            UserMathOperators[FindEmptyCell(UserMathOperators)]= UserMathOperators[0];
+            UserMathOperators[FindEmptyCell(UserMathOperators)]= MathOperators[0];
 
         }
         if ($("chkSubtraction").checked == true) {
-            UserMathOperators[FindEmptyCell(UserMathOperators)]= UserMathOperators[1];
+            UserMathOperators[FindEmptyCell(UserMathOperators)]= MathOperators[1];
         }
         if ($("chkMultiplication").checked == true) {
-            UserMathOperators[FindEmptyCell(UserMathOperators)]= UserMathOperators[2];
+            UserMathOperators[FindEmptyCell(UserMathOperators)]= MathOperators[2];
         }
         if ($("chkDivision").checked == true) {
-            UserMathOperators[FindEmptyCell(UserMathOperators)]= UserMathOperators[3];
+            UserMathOperators[FindEmptyCell(UserMathOperators)]= MathOperators[3];
         }
 
         location.assign("Flash Card.html");
@@ -151,4 +156,45 @@ else if ($("radStoryProblem").checked ==true){
     }
     else {alert ("Please select either .")
     return;}
+}
+function RandomInt (low,high) {
+    //given :low<=high
+    //returns : a random integer in the range [low,high]
+    return Math.floor(Math.random() * (high - low + 1)) + low;}
+
+function RandomOneOf(list){
+// Given : list is a nonempty list (array)
+// Returns: a random item from the list
+
+    return list[RandomInt(0, list.length-1)];
+}
+function CreateNumberArray(difficulty,Array){
+    Array= [];
+    for (i=0;i<difficulty*10;i++){
+        Array.push(i);
+    }
+}
+function SelectAndReduce(Array){
+    var index =RandomInt(0,Array.length-1);
+    var returnValue = Array[index];
+
+    Array.splice(index,1);
+    
+    return returnValue;
+}
+function DisplayEquationNumbers(){
+    var difficulty =1
+
+    for (i=0;i<difficulty*10;i++){
+        NumbersOne.push(i);
+        NumbersTwo.push(i)}
+
+    var a = SelectAndReduce(NumbersOne)//SelectAndReduce(NumbersOne);
+    var b = SelectAndReduce(NumbersTwo)//SelectAndReduce(NumbersTwo);
+
+$("divNumb1").innerHTML=a;
+    //Select Bottom Number
+$("divNumb2").innerHTML= b;
+    //Select Operator
+$("divOperator").innerHTML=RandomOneOf(MathOperators);//Change to UserMathOperators when finished
 }
