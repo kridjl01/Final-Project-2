@@ -5,7 +5,7 @@
  */
 
 var UserNames = [];
-var UserDifficulty = [];
+var UserDifficulty = 1;
 var CurrentUserCell;
 const MathOperators = ["+","-","x","/"];
 var UserMathOperators = []
@@ -179,22 +179,30 @@ function SelectAndReduce(Array){
     var returnValue = Array[index];
 
     Array.splice(index,1);
-    
+
     return returnValue;
 }
+
 function DisplayEquationNumbers(){
-    var difficulty =1
 
-    for (i=0;i<difficulty*10;i++){
-        NumbersOne.push(i);
-        NumbersTwo.push(i)}
 
-    var a = SelectAndReduce(NumbersOne)//SelectAndReduce(NumbersOne);
-    var b = SelectAndReduce(NumbersTwo)//SelectAndReduce(NumbersTwo);
+    if (NumbersOne == ""||NumbersOne[0]==undefined ||NumbersTwo == ""||NumbersTwo[0]==undefined){
+        for (i=0;i<UserDifficulty*10;i++){
+            NumbersOne.push(i);
+            NumbersTwo.push(i)}
+    }
 
-$("divNumb1").innerHTML=a;
-    //Select Bottom Number
-$("divNumb2").innerHTML= b;
-    //Select Operator
-$("divOperator").innerHTML=RandomOneOf(MathOperators);//Change to UserMathOperators when finished
+
+    var numbersone = SelectAndReduce(NumbersOne)//SelectAndReduce(NumbersOne);
+    var numberstwo = SelectAndReduce(NumbersTwo)//SelectAndReduce(NumbersTwo);
+    var operators = RandomOneOf(MathOperators);//Change to UserMathOperators when finished
+    if (operators =="/"&&numberstwo==0){
+        numberstwo=SelectAndReduce(NumbersTwo);
+        }
+        $("divOperator").innerHTML=operators;
+        $("divNumb1").innerHTML=numbersone;
+
+        $("divNumb2").innerHTML= numberstwo;
+
+
 }
