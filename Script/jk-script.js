@@ -19,6 +19,10 @@ var NumbersTopDiv = [];
 var NumbersBottomDiv = [];
 var CorrectAnswers = 0;
 var Answer;
+var Person1;
+var Person2;
+var Thing1;
+var Thing2;
 function $(elementid){
     return document.getElementById(elementid);
 }
@@ -326,3 +330,91 @@ function Achievement() {
         localStorage.setItem("CorrectAnswers", CorrectAnswers)
         location.assign("Flash Card.html")
     }
+function GetStoryProblem(){
+    Person1 = $("txtPerson1").value;
+    Person2 = $("txtPerson2").value;
+    Thing1 = $("txtThing1").value;
+    Thing2 = $("txtThing2").value;
+    localStorage.setItem("Person1", Person1);
+    localStorage.setItem("Person2", Person2);
+    localStorage.setItem("Thing1", Thing1);
+    localStorage.setItem("Thing2", Thing2);
+    location.assign("Story Problem.html");
+}
+function CreateStoryProblem(){
+    GetValues2();
+    Person1 = localStorage.getItem("Person1");
+    Person2 = localStorage.getItem("Person2");
+    Thing1 = localStorage.getItem("Thing1");
+    Thing2 = localStorage.getItem("Thing2");
+
+    $("divFeedBack").innerHTML="";
+    $("txtFlashAnswer").value=""
+    var top;
+    var bottom;
+    var operators = RandomInt(0,UserMathOperators.length-1);
+
+
+    if (UserMathOperators[operators] == 0){
+        if (NumbersTopAdd == ""||NumbersBottomAdd == ""){
+            for (i=0;i<UserDifficulty[CurrentUserCell]*10;i++){
+                NumbersTopAdd.push(i);
+                NumbersBottomAdd.push(i);}
+        }
+        top = SelectAndReduce(NumbersTopAdd);
+        bottom = SelectAndReduce(NumbersBottomAdd);
+        $("divStoryProblem").innerHTML=Person1 +" has "+top+Thing1+" and "+Person2+" has "+bottom +Thing1+".<br>"
+            +"How many "+Thing1+" are there all together?";
+        Answer = top+bottom;
+    }
+
+    if (UserMathOperators[operators] == 1){
+
+        if (NumbersTopSub == ""||NumbersBottomSub== ""){
+            for (i=0;i<UserDifficulty[CurrentUserCell]*10;i++){
+                NumbersTopSub.push(i);
+                NumbersBottomSub.push(i);}
+        }
+        top = SelectAndReduce(NumbersTopSub);
+        bottom = SelectAndReduce(NumbersBottomSub);
+        if(bottom>top) {
+            while (bottom>top){
+                NumbersBottomSub.push(bottom);
+                var index = 0
+                bottom = NumbersBottomSub[index];
+                NumbersBottomSub.splice(index,1);
+                index++;
+
+            }
+        }
+        DisplayEquationNumbers(top,bottom,"-");
+        Answer = top-bottom;
+    }
+    if (UserMathOperators[operators] == 2){
+        if (NumbersTopMult == ""||NumbersBottomMult == ""){
+            for (i=0;i<UserDifficulty[CurrentUserCell]*10;i++){
+                NumbersTopMult.push(i);
+                NumbersBottomMult.push(i);}
+        }
+        top = SelectAndReduce(NumbersTopMult);
+        bottom = SelectAndReduce(NumbersBottomMult);
+        DisplayEquationNumbers(top,bottom,"X");
+        Answer = top*bottom;
+    }
+    if (UserMathOperators[operators] == 3){
+        if (NumbersTopDiv == ""||NumbersBottomDiv == ""){
+            for (i=0;i<UserDifficulty[CurrentUserCell]*10;i++){
+                NumbersTopMult.push(i);
+                NumbersBottomMult.push(i);
+            }
+        }
+
+        bottom = SelectAndReduce(NumbersBottomMult);
+        top = bottom*SelectAndReduce(NumbersTopMult);
+        DisplayEquationNumbers(top,bottom,"/");
+        Answer = top/bottom;
+
+    }
+
+
+}
