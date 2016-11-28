@@ -35,6 +35,14 @@ function SaveValues(){
     localStorage.setItem("UserNames",JSON.stringify(UserNames));
     localStorage.setItem("UserDifficulty",JSON.stringify(UserDifficulty));
     localStorage.setItem("UserMathOperators",JSON.stringify(UserMathOperators));
+    localStorage.setItem("NumbersTopAdd",JSON.stringify(NumbersTopAdd));
+    localStorage.setItem("NumbersBottomAdd",JSON.stringify(NumbersBottomAdd));
+    localStorage.setItem("NumbersTopSub",JSON.stringify(NumbersTopSub));
+    localStorage.setItem("NumbersBottomSub",JSON.stringify(NumbersBottomSub));
+    localStorage.setItem("NumbersTopMult",JSON.stringify(NumbersTopMult));
+    localStorage.setItem("NumbersBottomMult",JSON.stringify(NumbersBottomMult));
+    localStorage.setItem("NumbersTopDiv",JSON.stringify(NumbersTopDiv));
+    localStorage.setItem("NumbersBottomDiv",JSON.stringify(NumbersBottomDiv));
     localStorage.setItem("CorrectAnswers",CorrectAnswers);
     localStorage.setItem("CurrentUserCell",CurrentUserCell);
 }
@@ -45,6 +53,15 @@ function GetValues2(){
     CurrentUserCell = parseFloat(localStorage.getItem("CurrentUserCell"));
     UserMathOperators=JSON.parse(localStorage.getItem("UserMathOperators"));
     UserDifficulty = JSON.parse(localStorage.getItem("UserDifficulty"));
+    NumbersTopAdd = JSON.parse(localStorage.getItem("NumbersTopAdd"));
+    NumbersBottomAdd =JSON.parse(localStorage.getItem("NumbersBottomAdd"));
+    NumbersTopSub=JSON.parse(localStorage.getItem("NumbersTopSub"));
+    NumbersBottomSub=JSON.parse(localStorage.getItem("NumbersBottomSub"));
+    NumbersTopMult=JSON.parse(localStorage.getItem("NumbersTopMult"));
+    NumbersBottomMult=JSON.parse(localStorage.getItem("NumbersBottomMult"));
+    NumbersTopDiv=JSON.parse(localStorage.getItem("NumbersTopDiv"));
+    NumbersBottomDiv=JSON.parse(localStorage.getItem("NumbersBottomDiv"));
+    //var adse = UserDifficulty[CurrentUserCell]+1;alert(adse);alert("adse")
    // alert("CorrectAnswers");alert(CorrectAnswers)
   //  alert("CurrentUserCell");alert(CurrentUserCell)
 }
@@ -52,13 +69,13 @@ function GetValues(){
     //Takes UserNames and UserDifficulty strings from local storage converts to an array
     // and saves as UserNames and UserDifficulty array
     var retrievedNames = localStorage.getItem("UserNames");
-alert ("retrievedNames");alert (retrievedNames)
+//alert ("retrievedNames");alert (retrievedNames)
 
     if (retrievedNames == null) {
         // If retrievedNames is null this does nothing and leaves the UserNames and User Difficulty as
         //empty
         UserNames = [];UserDifficulty=[];CorrectAnswers=0;CurrentUserCell=0;
-        alert("GetValues retrieved names is null");alert(UserNames);alert(UserNames)
+        //alert("GetValues retrieved names is null First alert correct answers second is UserNames");alert(CorrectAnswers);alert(UserNames)
     }
     else {
         //If retrievedNames is not null the conversion and assignment is carried out
@@ -67,7 +84,7 @@ alert ("retrievedNames");alert (retrievedNames)
         UserDifficulty = JSON.parse(retrievedDifficulty);
         CorrectAnswers = 0;
         CurrentUserCell=0;
-        alert("GetValues retrieved names is not null");alert(UserNames);alert(UserNames)
+        //alert("GetValues retrieved names is not null First alert correct answers second is UserNames");alert(CorrectAnswers);alert(UserNames)
     }
 }
 function CheckUserName(UserName){
@@ -92,13 +109,13 @@ function CheckUserName(UserName){
 }
 function FindEmptyCell(Array){
     // Finds the next empty cell in the Array
-    var i=0
+    var i=0;
     if (Array ==null){
         //If array has not been filled returns 0 for first cell
         return 0;
     }
 
-    while (Array [i] !=null){i++
+    while (Array [i] !=null){i++;
         //Finds the next empty cell
     }
     return i;
@@ -107,10 +124,10 @@ function NewUserName(){
     //Takes a new user name and add new cell to username array
 
     var newUserName = $("txtUserName").value;
-alert ("CheckUserName(newUserName)");alert (CheckUserName(newUserName))
+//alert ("CheckUserName(newUserName)");alert (CheckUserName(newUserName))
     if (CheckUserName(newUserName)==true){
 
-        var emptyCell = FindEmptyCell(UserNames)
+        var emptyCell = FindEmptyCell(UserNames);
 
 
         UserNames[emptyCell]= newUserName;
@@ -127,7 +144,7 @@ alert ("CheckUserName(newUserName)");alert (CheckUserName(newUserName))
 
 function PreviousUser(){
     // Finds the previous users name
-    var previousUserName = $("txtUserName").value
+    var previousUserName = $("txtUserName").value;
 
     if (CheckUserName(previousUserName)==true){
         alert ("User Name is incorrect Please Enter correct username or select new user.")
@@ -184,13 +201,13 @@ function GameSelection(){
             UserMathOperators[0]= 3;
         }
         if (numberSelected>1){
-            alert("Please select only one math operation.")
+            alert("Please select only one math operation.");
             return;
         }
         SaveValues();
         location.assign("Story Problem Input.html");
     }
-    else {alert ("Please select either .")
+    else {alert ("Please select either .");
         return;}
 }
 
@@ -232,17 +249,17 @@ function CreateEquationNumbers(){
     GetValues2();
 
     $("divFeedBack").innerHTML="";
-    $("txtFlashAnswer").value=""
+    $("txtFlashAnswer").value="";
     var top;
     var bottom;
     var operators = RandomInt(0,UserMathOperators.length-1);
 
 
     if (UserMathOperators[operators] == 0){
-        if (NumbersTopAdd == ""||NumbersBottomAdd == ""){
+        if (NumbersTopAdd == ""||NumbersBottomAdd == ""){alert("Making new array");
             for (i=0;i<UserDifficulty[CurrentUserCell]*10;i++){
                 NumbersTopAdd.push(i);
-                NumbersBottomAdd.push(i);}
+                NumbersBottomAdd.push(i);}alert(NumbersTopAdd)
         }
         top = SelectAndReduce(NumbersTopAdd);
         bottom = SelectAndReduce(NumbersBottomAdd);
@@ -304,30 +321,36 @@ function CreateEquationNumbers(){
 function CheckAnswer(){
     var userAnswer = parseFloat($("txtFlashAnswer").value);
 
+
     if (userAnswer ==Answer){
         CorrectAnswers =CorrectAnswers +1;
-        localStorage.setItem("CorrectAnswers",CorrectAnswers)
+        localStorage.setItem("CorrectAnswers",CorrectAnswers);
 
         location.assign("Achievement.html")
 
     }
-    else{$("divFeedBack").innerHTML="Try Again";}
+    else{$("divFeedBack").innerHTML="Try Again"; CorrectAnswers = 0;}
 
 }
-function Achievement() {
-    CorrectAnswers = localStorage.getItem("CorrectAnswers")
+function Achievement() {GetValues2()
+    CorrectAnswers = parseFloat(localStorage.getItem("CorrectAnswers"));
     if (CorrectAnswers % 2 != 0) {
         $("divAchievement").innerHTML = "Correct"
     }
 
     if (CorrectAnswers % 2 == 0) {
+        if (CorrectAnswers % 20 == 0) {
 
+            UserDifficulty[CurrentUserCell] = UserDifficulty[CurrentUserCell] + 1;
+            alert(UserDifficulty[CurrentUserCell]);
+
+        }
         feedBack = ["Way To GO", "Your On Top", "Good Job", "Superb", "Genius"];
         $("divAchievement").innerHTML = RandomOneOf(feedBack) + "<br> You have answered " + CorrectAnswers + " in a row";
-    }
+    }SaveValues();
 }
     function GoBackToFlash() {
-        localStorage.setItem("CorrectAnswers", CorrectAnswers)
+        localStorage.setItem("CorrectAnswers", CorrectAnswers);
         location.assign("Flash Card.html")
     }
 function GetStoryProblem(){
@@ -349,7 +372,7 @@ function CreateStoryProblem(){
     Thing2 = localStorage.getItem("Thing2");
 
     $("divFeedBack").innerHTML="";
-    $("txtFlashAnswer").value=""
+    $("txtFlashAnswer").value="";
     var top;
     var bottom;
     var operators = RandomInt(0,UserMathOperators.length-1);
